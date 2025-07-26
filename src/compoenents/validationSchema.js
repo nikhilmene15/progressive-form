@@ -4,9 +4,10 @@ const validationSchema = Yup.object().shape({
   fullName: Yup.string()
     .min(3, "At least 3 characters")
     .required("Full name is required"),
-  phone: Yup.string()
-    .matches(/^[6-9]\d{9}$/, "Enter a valid 10-digit phone number")
-    .required("Phone number is required"),
+  mobile: Yup.string()
+    .matches(/^[6-9][0-9]{9}$/, "Enter valid 10-digit mobile starting with 6-9")
+    .required("Mobile number is required"),
+
   email: Yup.string()
     .matches(
       /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
