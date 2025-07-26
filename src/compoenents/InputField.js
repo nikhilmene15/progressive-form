@@ -17,6 +17,13 @@ export default function InputField({
   showNext = false,
   isLast = false,
 }) {
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter" && showNext && onNext) {
+      e.preventDefault(); // prevent form submit
+      onNext(field.name);
+    }
+  };
+
   return (
     <motion.div
       key={field.name}
@@ -27,7 +34,6 @@ export default function InputField({
       className="mb-3">
       <label className="form-label">{field.label}</label>
 
-      {/* ✅ Special logic for mobile field */}
       {field.name === "mobile" ? (
         <motion.input
           style={{ color: "#07314a", fontSize: "14px" }}
@@ -37,15 +43,16 @@ export default function InputField({
           className="form-control"
           {...register("mobile")}
           onInput={(e) => {
-            let value = e.target.value.replace(/[^0-9]/g, ""); // keep only digits
+            let value = e.target.value.replace(/[^0-9]/g, "");
             if (value.length === 1 && !/[6-9]/.test(value)) {
-              value = ""; // prevent first digit if not 6-9
+              value = "";
             }
-            e.target.value = value.slice(0, 10); // max 10 digits
+            e.target.value = value.slice(0, 10);
           }}
           pattern="[6-9][0-9]{9}"
           variants={shakeAnimation}
           animate={errors.mobile ? "animate" : ""}
+          onKeyDown={handleKeyDown}
         />
       ) : (
         <motion.input
@@ -55,17 +62,16 @@ export default function InputField({
           {...register(field.name)}
           variants={shakeAnimation}
           animate={errors[field.name] ? "animate" : ""}
+          onKeyDown={handleKeyDown}
         />
       )}
 
-      {/* Validation error message */}
       {errors[field.name] && (
         <div className="form-text text-danger">
           {errors[field.name]?.message}
         </div>
       )}
 
-      {/* Next Button (Progressive form mode) */}
       {showNext && (
         <button
           type="button"
@@ -75,7 +81,6 @@ export default function InputField({
         </button>
       )}
 
-      {/* Submit button on last step */}
       {isLast && (
         <button type="submit" className="btn btn-success w-100 mt-4">
           Submit
