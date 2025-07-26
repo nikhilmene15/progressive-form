@@ -1,0 +1,17 @@
+.form-control:focus {
+  outline: unset !important;
+  box-shadow: unset !important;
+}
+.next-btn {
+  background-color: #07314a;
+  color: #fff;
+  padding: 8px 0;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+}
+h2,
+label {
+  color: #07314a;
+  font-weight: 600;
+}
